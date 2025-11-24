@@ -1,5 +1,7 @@
 import { Status, Task } from "../types";
 import { TaskCard } from "./TaskCard";
+import { useDroppable } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import "./StatusColumn.css";
 
 interface StatusColumnProps {
@@ -15,8 +17,15 @@ export const StatusColumn = ({
   onEditTask,
   onDeleteTask,
 }: StatusColumnProps) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id: status.id,
+  });
+
   return (
-    <div className="status-column">
+    <div
+      ref={setNodeRef}
+      className={`status-column ${isOver ? "drag-over" : ""}`}
+    >
       <div className="status-column-header">
         <h3>{status.name}</h3>
         <span className="task-count">{tasks.length}</span>
@@ -25,14 +34,19 @@ export const StatusColumn = ({
         {tasks.length === 0 ? (
           <div className="empty-column">タスクがありません</div>
         ) : (
-          tasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onEdit={onEditTask}
-              onDelete={onDeleteTask}
-            />
-          ))
+          <SortableContext
+            items={tasks.map((task) => task.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {tasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                onEdit={onEditTask}
+                onDelete={onDeleteTask}
+              />
+            ))}
+          </SortableContext>
         )}
       </div>
     </div>

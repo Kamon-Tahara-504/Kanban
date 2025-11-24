@@ -53,6 +53,10 @@ function App() {
         setEditingTask(null);
     };
 
+    const handleTaskMove = (taskId: string, newStatusId: string) => {
+        updateTask(taskId, { statusId: newStatusId });
+    };
+
     return (
         <div className="app-container">
             <Sidebar
@@ -71,6 +75,7 @@ function App() {
                     tasks={filteredTasks}
                     onEditTask={handleEditTask}
                     onDeleteTask={handleDeleteTask}
+                    onTaskMove={handleTaskMove}
                 />
             </div>
             {showTaskForm && (
