@@ -18,6 +18,12 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.main-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 .add-task-btn {
   padding: 12px 24px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -33,6 +39,23 @@
 .add-task-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.manage-status-btn {
+  padding: 12px 24px;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 8px;
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.manage-status-btn:hover {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.5);
 }
 
 /* タイトル */
