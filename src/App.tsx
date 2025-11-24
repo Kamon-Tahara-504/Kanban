@@ -6,8 +6,7 @@ import { TaskForm } from "./components/TaskForm";
 import { CategoryManager } from "./components/CategoryManager";
 import { StatusManager } from "./components/StatusManager";
 import { useCategories, useStatuses, useTasks } from "./hooks/useLocalStorage";
-import { Task } from "./types";
-import type { Status } from "./types";
+import type { Task } from "./types";
 
 function App() {
     const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
@@ -73,6 +72,28 @@ function App() {
         updateTask(taskId, { statusId: newStatusId });
     };
 
+    const handleDeleteCategory = (categoryId: string) => {
+        // カテゴリーに関連するタスクを削除
+        const relatedTasks = tasks.filter((task) => task.categoryId === categoryId);
+        relatedTasks.forEach((task) => deleteTask(task.id));
+        deleteCategory(categoryId);
+    };
+
+    const handleDeleteStatus = (statusId: string) => {
+        // ステータスに関連するタスクを削除
+        const relatedTasks = tasks.filter((task) => task.statusId === statusId);
+        relatedTasks.forEach((task) => deleteTask(task.id));
+        deleteStatus(statusId);
+    };
+
+    const getCategoryTaskCount = (categoryId: string) => {
+        return tasks.filter((task) => task.categoryId === categoryId).length;
+    };
+
+    const getStatusTaskCount = (statusId: string) => {
+        return tasks.filter((task) => task.statusId === statusId).length;
+    };
+
     return (
         <div className="app-container">
             <Sidebar
@@ -113,18 +134,20 @@ function App() {
             {showCategoryManager && (
                 <CategoryManager
                     categories={categories}
+                    taskCount={getCategoryTaskCount}
                     onAdd={addCategory}
                     onUpdate={updateCategory}
-                    onDelete={deleteCategory}
+                    onDelete={handleDeleteCategory}
                     onClose={() => setShowCategoryManager(false)}
                 />
             )}
             {showStatusManager && (
                 <StatusManager
                     statuses={statuses}
+                    taskCount={getStatusTaskCount}
                     onAdd={addStatus}
                     onUpdate={updateStatus}
-                    onDelete={deleteStatus}
+                    onDelete={handleDeleteStatus}
                     onReorder={reorderStatuses}
                     onClose={() => setShowStatusManager(false)}
                 />

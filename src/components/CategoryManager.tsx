@@ -4,6 +4,7 @@ import "./CategoryManager.css";
 
 interface CategoryManagerProps {
   categories: Category[];
+  taskCount?: (categoryId: string) => number;
   onAdd: (category: Omit<Category, "id">) => void;
   onUpdate: (id: string, updates: Partial<Category>) => void;
   onDelete: (id: string) => void;
@@ -12,6 +13,7 @@ interface CategoryManagerProps {
 
 export const CategoryManager = ({
   categories,
+  taskCount,
   onAdd,
   onUpdate,
   onDelete,
@@ -55,7 +57,12 @@ export const CategoryManager = ({
   };
 
   const handleDelete = (id: string, name: string) => {
-    if (window.confirm(`カテゴリー「${name}」を削除しますか？`)) {
+    const count = taskCount ? taskCount(id) : 0;
+    const message = count > 0
+      ? `カテゴリー「${name}」を削除しますか？\nこのカテゴリーには${count}個のタスクが含まれています。タスクも削除されます。`
+      : `カテゴリー「${name}」を削除しますか？`;
+    
+    if (window.confirm(message)) {
       onDelete(id);
     }
   };
@@ -152,6 +159,11 @@ export const CategoryManager = ({
                             style={{ backgroundColor: category.color }}
                           />
                           <span className="category-name">{category.name}</span>
+                          {taskCount && taskCount(category.id) > 0 && (
+                            <span className="category-task-count">
+                              ({taskCount(category.id)})
+                            </span>
+                          )}
                         </div>
                         <div className="category-actions">
                           <button
