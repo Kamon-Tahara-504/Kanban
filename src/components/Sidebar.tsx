@@ -5,12 +5,14 @@ interface SidebarProps {
   categories: Category[];
   selectedCategoryId: string | null;
   onSelectCategory: (categoryId: string) => void;
+  onManageCategories?: () => void;
 }
 
 export const Sidebar = ({
   categories,
   selectedCategoryId,
   onSelectCategory,
+  onManageCategories,
 }: SidebarProps) => {
   return (
     <div className="sidebar">
@@ -30,6 +32,13 @@ export const Sidebar = ({
           </button>
         ))}
       </div>
+      {onManageCategories && (
+        <div className="sidebar-footer">
+          <button className="sidebar-manage-btn" onClick={onManageCategories}>
+            カテゴリーを管理
+          </button>
+        </div>
+      )}
     </div>
   );
 };
