@@ -7,8 +7,8 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
@@ -21,6 +21,7 @@ import "./StatusManager.css";
 
 interface StatusManagerProps {
   statuses: Status[];
+  taskCount?: (statusId: string) => number;
   onAdd: (status: Omit<Status, "id">) => void;
   onUpdate: (id: string, updates: Partial<Status>) => void;
   onDelete: (id: string) => void;
@@ -32,6 +33,7 @@ interface SortableStatusItemProps {
   status: Status;
   editingId: string | null;
   editName: string;
+  taskCount?: number;
   onStartEdit: (status: Status) => void;
   onSaveEdit: (id: string) => void;
   onCancelEdit: () => void;
@@ -43,6 +45,7 @@ const SortableStatusItem = ({
   status,
   editingId,
   editName,
+  taskCount,
   onStartEdit,
   onSaveEdit,
   onCancelEdit,
@@ -94,7 +97,12 @@ const SortableStatusItem = ({
         </div>
       ) : (
         <div className="status-display">
-          <span className="status-name">{status.name}</span>
+          <span className="status-name">
+            {status.name}
+            {taskCount !== undefined && taskCount > 0 && (
+              <span className="status-task-count"> ({taskCount})</span>
+            )}
+          </span>
           <div className="status-actions">
             <button
               onClick={() => onStartEdit(status)}
@@ -117,6 +125,7 @@ const SortableStatusItem = ({
 
 export const StatusManager = ({
   statuses,
+  taskCount,
   onAdd,
   onUpdate,
   onDelete,
@@ -165,7 +174,12 @@ export const StatusManager = ({
   };
 
   const handleDelete = (id: string, name: string) => {
-    if (window.confirm(`ステータス「${name}」を削除しますか？`)) {
+    const count = taskCount ? taskCount(id) : 0;
+    const message = count > 0
+      ? `ステータス「${name}」を削除しますか？\nこのステータスには${count}個のタスクが含まれています。タスクも削除されます。`
+      : `ステータス「${name}」を削除しますか？`;
+    
+    if (window.confirm(message)) {
       onDelete(id);
     }
   };
@@ -245,6 +259,7 @@ export const StatusManager = ({
                         status={status}
                         editingId={editingId}
                         editName={editName}
+                        taskCount={taskCount ? taskCount(status.id) : undefined}
                         onStartEdit={handleStartEdit}
                         onSaveEdit={handleSaveEdit}
                         onCancelEdit={handleCancelEdit}

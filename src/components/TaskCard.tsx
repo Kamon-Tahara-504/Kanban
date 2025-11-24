@@ -1,4 +1,5 @@
-import { Task, PRIORITY_CONFIG } from "../types";
+import type { Task } from "../types";
+import { PRIORITY_CONFIG } from "../types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./TaskCard.css";

@@ -1,14 +1,13 @@
-import { Status, Task } from "../types";
+import type { Status, Task } from "../types";
 import { StatusColumn } from "./StatusColumn";
 import {
   DndContext,
-  DragEndEvent,
   DragOverlay,
-  DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import { useState } from "react";
 import "./KanbanBoard.css";
 

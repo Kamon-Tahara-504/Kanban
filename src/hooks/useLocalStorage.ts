@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
-import { Category, Status, Task, DEFAULT_CATEGORIES, DEFAULT_STATUSES } from "../types";
+import type { Category, Status, Task, GradientTheme } from "../types";
+import {
+  DEFAULT_CATEGORIES,
+  DEFAULT_STATUSES,
+  DEFAULT_GRADIENT_THEME,
+} from "../types";
 
 // localStorageのキー
 const STORAGE_KEYS = {
   CATEGORIES: "kanban_categories",
   STATUSES: "kanban_statuses",
   TASKS: "kanban_tasks",
+  THEME: "kanban_theme",
 } as const;
 
 // データの初期化
@@ -182,6 +188,42 @@ export const useTasks = () => {
     getTasksByCategory,
     getTasksByStatus,
     getTasksByCategoryAndStatus,
+  };
+};
+
+// テーマ管理フック
+export const useTheme = () => {
+  const [theme, setTheme] = useState<GradientTheme>(() =>
+    initializeData(STORAGE_KEYS.THEME, DEFAULT_GRADIENT_THEME)
+  );
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEYS.THEME, JSON.stringify(theme));
+    } catch (error) {
+      console.error("Error saving theme:", error);
+    }
+  }, [theme]);
+
+  const updateTheme = (updates: Partial<GradientTheme>) => {
+    setTheme((prev) => ({ ...prev, ...updates }));
+  };
+
+  const resetTheme = () => {
+    setTheme(DEFAULT_GRADIENT_THEME);
+  };
+
+  // グラデーションCSS文字列を生成
+  const getGradientCSS = () => {
+    return `linear-gradient(${theme.angle}deg, ${theme.color1} 0%, ${theme.color2} 30%, ${theme.color3} 60%, ${theme.color4} 100%)`;
+  };
+
+  return {
+    theme,
+    setTheme,
+    updateTheme,
+    resetTheme,
+    getGradientCSS,
   };
 };
 

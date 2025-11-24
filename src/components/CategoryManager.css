@@ -220,6 +220,12 @@
   font-weight: 500;
 }
 
+.category-task-count {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
 .category-actions {
   display: flex;
   gap: 8px;

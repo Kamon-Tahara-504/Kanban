@@ -205,6 +205,11 @@
   font-weight: 500;
 }
 
+.status-task-count {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+}
+
 .status-actions {
   display: flex;
   gap: 8px;
