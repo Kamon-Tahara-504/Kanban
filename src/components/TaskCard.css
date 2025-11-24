@@ -1,12 +1,13 @@
 .task-card {
-  background: rgba(30, 30, 50, 0.8);
-  border-radius: 8px;
-  padding: 12px;
+  background: rgba(60, 30, 80, 0.9);
+  border-radius: 12px;
+  padding: 14px;
   margin-bottom: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.2s ease;
   cursor: grab;
   touch-action: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .task-card:active {
@@ -14,9 +15,10 @@
 }
 
 .task-card:hover {
-  background: rgba(40, 40, 60, 0.9);
+  background: rgba(80, 40, 100, 0.95);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .task-card-header {
