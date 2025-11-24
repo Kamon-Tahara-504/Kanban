@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Category, Status, Task, DEFAULT_CATEGORIES, DEFAULT_STATUSES } from "../types";
+import type { Category, Status, Task } from "../types";
+import { DEFAULT_CATEGORIES, DEFAULT_STATUSES } from "../types";
 
 // localStorageのキー
 const STORAGE_KEYS = {

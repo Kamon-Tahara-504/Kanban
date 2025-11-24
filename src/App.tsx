@@ -12,9 +12,7 @@ function App() {
     const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
     const { statuses, addStatus, updateStatus, deleteStatus, reorderStatuses } = useStatuses();
     const { tasks, addTask, updateTask, deleteTask } = useTasks();
-    const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-        categories.length > 0 ? categories[0].id : null
-    );
+    const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [showTaskForm, setShowTaskForm] = useState(false);
     const [showCategoryManager, setShowCategoryManager] = useState(false);
@@ -22,12 +20,13 @@ function App() {
 
     // カテゴリーが変更されたら、選択中のカテゴリーが存在するか確認
     useEffect(() => {
-        if (selectedCategoryId && !categories.find((c) => c.id === selectedCategoryId)) {
-            // 選択中のカテゴリーが削除された場合、最初のカテゴリーを選択
-            setSelectedCategoryId(categories.length > 0 ? categories[0].id : null);
-        } else if (!selectedCategoryId && categories.length > 0) {
-            // カテゴリーが存在するが選択されていない場合、最初のカテゴリーを選択
-            setSelectedCategoryId(categories[0].id);
+        if (categories.length > 0) {
+            if (!selectedCategoryId || !categories.find((c) => c.id === selectedCategoryId)) {
+                // 選択中のカテゴリーが存在しない場合、最初のカテゴリーを選択
+                setSelectedCategoryId(categories[0].id);
+            }
+        } else {
+            setSelectedCategoryId(null);
         }
     }, [categories, selectedCategoryId]);
 
