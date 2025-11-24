@@ -3,6 +3,8 @@
   background-color: #1a1a2e;
   min-height: 100vh;
   padding: 20px 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-content {
@@ -31,5 +33,30 @@
 .sidebar-item.active {
   background-color: rgba(240, 147, 251, 0.2);
   color: #f093fb;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+.sidebar-manage-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 8px;
+  color: #667eea;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sidebar-manage-btn:hover {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.5);
 }
 

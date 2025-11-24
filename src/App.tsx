@@ -1,13 +1,14 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import "./App.css";
 import { Sidebar } from "./components/Sidebar";
 import { KanbanBoard } from "./components/KanbanBoard";
 import { TaskForm } from "./components/TaskForm";
+import { CategoryManager } from "./components/CategoryManager";
 import { useCategories, useStatuses, useTasks } from "./hooks/useLocalStorage";
 import { Task } from "./types";
 
 function App() {
-    const { categories } = useCategories();
+    const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
     const { statuses } = useStatuses();
     const { tasks, addTask, updateTask, deleteTask } = useTasks();
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
@@ -15,6 +16,18 @@ function App() {
     );
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [showTaskForm, setShowTaskForm] = useState(false);
+    const [showCategoryManager, setShowCategoryManager] = useState(false);
+
+    // カテゴリーが変更されたら、選択中のカテゴリーが存在するか確認
+    useEffect(() => {
+        if (selectedCategoryId && !categories.find((c) => c.id === selectedCategoryId)) {
+            // 選択中のカテゴリーが削除された場合、最初のカテゴリーを選択
+            setSelectedCategoryId(categories.length > 0 ? categories[0].id : null);
+        } else if (!selectedCategoryId && categories.length > 0) {
+            // カテゴリーが存在するが選択されていない場合、最初のカテゴリーを選択
+            setSelectedCategoryId(categories[0].id);
+        }
+    }, [categories, selectedCategoryId]);
 
     // 選択されたカテゴリーのタスクのみをフィルタリング
     const filteredTasks = useMemo(() => {
@@ -63,6 +76,7 @@ function App() {
                 categories={categories}
                 selectedCategoryId={selectedCategoryId}
                 onSelectCategory={setSelectedCategoryId}
+                onManageCategories={() => setShowCategoryManager(true)}
             />
             <div className="main-content">
                 <div className="main-header">
@@ -85,6 +99,15 @@ function App() {
                     statuses={statuses}
                     onSubmit={handleSubmitTask}
                     onCancel={handleCancelTaskForm}
+                />
+            )}
+            {showCategoryManager && (
+                <CategoryManager
+                    categories={categories}
+                    onAdd={addCategory}
+                    onUpdate={updateCategory}
+                    onDelete={deleteCategory}
+                    onClose={() => setShowCategoryManager(false)}
                 />
             )}
         </div>
