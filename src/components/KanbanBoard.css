@@ -1,0 +1,61 @@
+.kanban-board {
+  flex: 1;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.kanban-header {
+  margin-bottom: 20px;
+}
+
+.kanban-search {
+  width: 100%;
+  max-width: 600px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.kanban-search::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.kanban-search:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.kanban-columns {
+  display: flex;
+  gap: 16px;
+  min-height: 500px;
+}
+
+.kanban-column {
+  flex: 1;
+  min-width: 280px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kanban-column-header {
+  margin-bottom: 16px;
+}
+
+.kanban-column-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.kanban-column-content {
+  min-height: 100px;
+}
+
