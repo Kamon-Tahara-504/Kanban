@@ -4,12 +4,14 @@ import { Sidebar } from "./components/Sidebar";
 import { KanbanBoard } from "./components/KanbanBoard";
 import { TaskForm } from "./components/TaskForm";
 import { CategoryManager } from "./components/CategoryManager";
+import { StatusManager } from "./components/StatusManager";
 import { useCategories, useStatuses, useTasks } from "./hooks/useLocalStorage";
 import { Task } from "./types";
+import type { Status } from "./types";
 
 function App() {
     const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
-    const { statuses } = useStatuses();
+    const { statuses, addStatus, updateStatus, deleteStatus, reorderStatuses } = useStatuses();
     const { tasks, addTask, updateTask, deleteTask } = useTasks();
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
         categories.length > 0 ? categories[0].id : null
@@ -17,6 +19,7 @@ function App() {
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [showTaskForm, setShowTaskForm] = useState(false);
     const [showCategoryManager, setShowCategoryManager] = useState(false);
+    const [showStatusManager, setShowStatusManager] = useState(false);
 
     // カテゴリーが変更されたら、選択中のカテゴリーが存在するか確認
     useEffect(() => {
@@ -83,6 +86,12 @@ function App() {
                     <button className="add-task-btn" onClick={handleAddTask}>
                         + タスクを追加
                     </button>
+                    <button
+                        className="manage-status-btn"
+                        onClick={() => setShowStatusManager(true)}
+                    >
+                        ステータスを管理
+                    </button>
                 </div>
                 <KanbanBoard
                     statuses={statuses}
@@ -108,6 +117,16 @@ function App() {
                     onUpdate={updateCategory}
                     onDelete={deleteCategory}
                     onClose={() => setShowCategoryManager(false)}
+                />
+            )}
+            {showStatusManager && (
+                <StatusManager
+                    statuses={statuses}
+                    onAdd={addStatus}
+                    onUpdate={updateStatus}
+                    onDelete={deleteStatus}
+                    onReorder={reorderStatuses}
+                    onClose={() => setShowStatusManager(false)}
                 />
             )}
         </div>
