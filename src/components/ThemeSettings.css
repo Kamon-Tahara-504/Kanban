@@ -70,12 +70,51 @@
 }
 
 .theme-preview-section h3,
-.theme-colors-section h3,
 .theme-angle-section h3 {
   margin: 0 0 16px 0;
   color: rgba(255, 255, 255, 0.9);
   font-size: 16px;
   font-weight: 600;
+}
+
+.theme-colors-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.theme-colors-header h3 {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.unified-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.unified-mode-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #667eea;
+}
+
+.unified-mode-hint {
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
 }
 
 .theme-preview {
