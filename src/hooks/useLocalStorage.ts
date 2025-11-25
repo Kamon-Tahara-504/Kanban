@@ -215,7 +215,7 @@ export const useTheme = () => {
 
   // グラデーションCSS文字列を生成
   const getGradientCSS = () => {
-    return `linear-gradient(${theme.angle}deg, ${theme.color1} 0%, ${theme.color2} 30%, ${theme.color3} 60%, ${theme.color4} 100%)`;
+    return `linear-gradient(${theme.angle}deg, ${theme.color1} 0%, ${theme.color2} 50%, ${theme.color3} 100%)`;
   };
 
   return {
