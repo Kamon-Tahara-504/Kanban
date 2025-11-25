@@ -18,13 +18,24 @@ function App() {
     const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
     const { statuses, addStatus, updateStatus, deleteStatus, reorderStatuses } = useStatuses();
     const { tasks, addTask, updateTask, deleteTask } = useTasks();
-    const { theme, updateTheme, resetTheme } = useTheme();
+    const { theme, updateTheme, resetTheme, getGradientCSS } = useTheme();
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [showTaskForm, setShowTaskForm] = useState(false);
     const [showCategoryManager, setShowCategoryManager] = useState(false);
     const [showStatusManager, setShowStatusManager] = useState(false);
     const [showThemeSettings, setShowThemeSettings] = useState(false);
+
+    // テーマを背景に適用
+    useEffect(() => {
+        const gradientCSS = getGradientCSS();
+        document.body.style.background = gradientCSS;
+        const appContainer = document.querySelector(".app-container") as HTMLElement;
+        if (appContainer) {
+            appContainer.style.background = gradientCSS;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [theme]);
 
     // カテゴリーが変更されたら、選択中のカテゴリーが存在するか確認
     useEffect(() => {
