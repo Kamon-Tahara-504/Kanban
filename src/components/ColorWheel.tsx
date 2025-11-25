@@ -20,8 +20,8 @@ export const ColorWheel = ({ size, angleSpread, onColorsChange }: ColorWheelProp
   
   // 中央ピッカーの位置（極座標）
   const [mainPicker, setMainPicker] = useState<PolarCoordinate>({
-    angle: 270, // 初期位置：上
-    radius: 0.7, // 初期位置：外側寄り
+    angle: 24, // 初期位置：オレンジ（約24度）
+    radius: 0.75, // 初期位置：外側寄り
   });
 
   // HSVからRGBへの変換
