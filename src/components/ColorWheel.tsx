@@ -4,6 +4,7 @@ import "./ColorWheel.css";
 interface ColorWheelProps {
   size: number;
   angleSpread: number; // ピッカー間の角度間隔（度）
+  initialColor?: string; // 初期色（color2）
   onColorsChange: (color1: string, color2: string, color3: string) => void;
 }
 
@@ -13,16 +14,74 @@ interface PolarCoordinate {
   radius: number; // 0-1の範囲（0が中心、1が外側）
 }
 
-export const ColorWheel = ({ size, angleSpread, onColorsChange }: ColorWheelProps) => {
+export const ColorWheel = ({ size, angleSpread, initialColor, onColorsChange }: ColorWheelProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const lastColorsRef = useRef<{ color1: string; color2: string; color3: string } | null>(null);
+  
+  // HEXからHSVへの変換
+  const hexToHsv = useCallback((hex: string): [number, number, number] => {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const delta = max - min;
+
+    let h = 0;
+    if (delta !== 0) {
+      if (max === r) {
+        h = ((g - b) / delta) % 6;
+      } else if (max === g) {
+        h = (b - r) / delta + 2;
+      } else {
+        h = (r - g) / delta + 4;
+      }
+    }
+    h = Math.round(h * 60);
+    if (h < 0) h += 360;
+
+    const s = max === 0 ? 0 : Math.round((delta / max) * 100);
+    const v = Math.round(max * 100);
+
+    return [h, s, v];
+  }, []);
+
+  // HSVから極座標への変換（逆変換）
+  const hsvToPolar = useCallback((h: number, s: number, v: number): PolarCoordinate => {
+    // 色相から角度を取得
+    const angle = h;
+    
+    // 彩度と明度から半径を逆算
+    // s = radius * 100 なので radius = s / 100
+    // v = radius * 90 + 10 なので radius = (v - 10) / 90
+    // 両方の値から平均を取るか、より正確な値を計算
+    const radiusFromS = s / 100;
+    const radiusFromV = Math.max(0, Math.min(1, (v - 10) / 90));
+    
+    // より正確な半径を計算（彩度と明度の両方を考慮）
+    const radius = (radiusFromS + radiusFromV) / 2;
+    
+    return { angle, radius: Math.max(0, Math.min(1, radius)) };
+  }, []);
+
+  // 初期位置を計算
+  const getInitialPosition = useCallback((): PolarCoordinate => {
+    if (initialColor) {
+      const [h, s, v] = hexToHsv(initialColor);
+      return hsvToPolar(h, s, v);
+    }
+    // デフォルト値
+    return {
+      angle: 24,
+      radius: 0.75,
+    };
+  }, [initialColor, hexToHsv, hsvToPolar]);
   
   // 中央ピッカーの位置（極座標）
-  const [mainPicker, setMainPicker] = useState<PolarCoordinate>({
-    angle: 24, // 初期位置：オレンジ（約24度）
-    radius: 0.75, // 初期位置：外側寄り
-  });
+  const [mainPicker, setMainPicker] = useState<PolarCoordinate>(getInitialPosition);
 
   // HSVからRGBへの変換
   const hsvToRgb = useCallback((h: number, s: number, v: number): [number, number, number] => {
@@ -176,7 +235,15 @@ export const ColorWheel = ({ size, angleSpread, onColorsChange }: ColorWheelProp
     const color2 = polarToHex(main);
     const color3 = polarToHex(right);
     
-    onColorsChange(color1, color2, color3);
+    // 前回の色と比較して、変更があった場合のみonColorsChangeを呼び出す
+    const lastColors = lastColorsRef.current;
+    if (!lastColors || 
+        lastColors.color1 !== color1 || 
+        lastColors.color2 !== color2 || 
+        lastColors.color3 !== color3) {
+      lastColorsRef.current = { color1, color2, color3 };
+      onColorsChange(color1, color2, color3);
+    }
   }, [calculateSatellitePositions, polarToHex, onColorsChange]);
 
   // マウス/タッチ座標から極座標を取得してピッカーを更新
@@ -250,12 +317,17 @@ export const ColorWheel = ({ size, angleSpread, onColorsChange }: ColorWheelProp
     };
   }, [isDragging, handleDrag]);
 
-  // 初期カラーを設定
+  // initialColorが変更されたときにピッカー位置を更新（位置のみ、色の更新は次のuseEffectに任せる）
   useEffect(() => {
-    updateColors(mainPicker);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (!initialColor) return;
+    
+    const [h, s, v] = hexToHsv(initialColor);
+    const newPosition = hsvToPolar(h, s, v);
+    setMainPicker(newPosition);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialColor]);
 
-  // angleSpreadが変更されたときにカラーを更新
+  // mainPickerまたはangleSpreadが変更されたときにカラーを更新
   useEffect(() => {
     updateColors(mainPicker);
   }, [angleSpread, mainPicker, updateColors]);
