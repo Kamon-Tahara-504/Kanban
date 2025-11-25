@@ -58,9 +58,9 @@ export interface GradientTheme {
 
 // デフォルトのグラデーションテーマ
 export const DEFAULT_GRADIENT_THEME: GradientTheme = {
-  color1: "#1a1a2e",
-  color2: "#16213e",
-  color3: "#764ba2",
+  color1: "#d63a26",
+  color2: "#d67626",
+  color3: "#d6b226",
   angle: 135,
 };
 
