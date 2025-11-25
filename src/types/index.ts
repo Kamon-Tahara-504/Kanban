@@ -51,9 +51,8 @@ export const PRIORITY_CONFIG: Record<Priority, { label: string; color: string }>
 // グラデーションテーマの型定義
 export interface GradientTheme {
   color1: string; // 開始色
-  color2: string; // 中間色1
-  color3: string; // 中間色2
-  color4: string; // 終了色
+  color2: string; // 中間色
+  color3: string; // 終了色
   angle: number; // グラデーション方向（角度、0-360度）
 }
 
@@ -61,8 +60,7 @@ export interface GradientTheme {
 export const DEFAULT_GRADIENT_THEME: GradientTheme = {
   color1: "#1a1a2e",
   color2: "#16213e",
-  color3: "#0f3460",
-  color4: "#764ba2",
+  color3: "#764ba2",
   angle: 135,
 };
 

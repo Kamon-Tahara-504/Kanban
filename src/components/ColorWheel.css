@@ -1,0 +1,136 @@
+.color-wheel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.color-wheel-canvas-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.color-wheel-canvas {
+  display: block;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.color-wheel-pickers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 中央のメインピッカー */
+.color-picker-main {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 0 0 2px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  pointer-events: auto;
+  transition: box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.color-picker-main:hover {
+  box-shadow: 
+    0 0 0 2px rgba(0, 0, 0, 0.3),
+    0 6px 16px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.color-picker-main:active {
+  box-shadow: 
+    0 0 0 2px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* 透明チェックパターン（メインピッカー） */
+.color-picker-main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(200, 200, 200, 0.3) 0px,
+      rgba(200, 200, 200, 0.3) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  background-size: 8px 8px;
+  z-index: -1;
+  border-radius: 50%;
+}
+
+/* サテライトピッカー */
+.color-picker-satellite {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 0 2px rgba(0, 0, 0, 0.2),
+    0 3px 8px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* 透明チェックパターン（サテライトピッカー） */
+.color-picker-satellite::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(200, 200, 200, 0.3) 0px,
+      rgba(200, 200, 200, 0.3) 3px,
+      transparent 3px,
+      transparent 6px
+    );
+  background-size: 6px 6px;
+  z-index: -1;
+  border-radius: 50%;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .color-picker-main {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.95);
+  }
+
+  .color-picker-satellite {
+    width: 28px;
+    height: 28px;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+  }
+}
