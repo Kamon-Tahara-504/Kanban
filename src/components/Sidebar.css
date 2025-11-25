@@ -40,9 +40,13 @@
   padding: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.sidebar-manage-btn {
+.sidebar-manage-btn,
+.sidebar-settings-btn {
   width: 100%;
   padding: 10px 16px;
   background: rgba(102, 126, 234, 0.2);
@@ -56,8 +60,20 @@
   font-weight: 600;
 }
 
-.sidebar-manage-btn:hover {
+.sidebar-manage-btn:hover,
+.sidebar-settings-btn:hover {
   background: rgba(102, 126, 234, 0.3);
   border-color: rgba(102, 126, 234, 0.5);
+}
+
+.sidebar-settings-btn {
+  background: rgba(240, 147, 251, 0.2);
+  border-color: rgba(240, 147, 251, 0.3);
+  color: #f093fb;
+}
+
+.sidebar-settings-btn:hover {
+  background: rgba(240, 147, 251, 0.3);
+  border-color: rgba(240, 147, 251, 0.5);
 }
 
