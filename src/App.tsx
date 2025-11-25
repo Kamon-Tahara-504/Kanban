@@ -5,18 +5,26 @@ import { KanbanBoard } from "./components/KanbanBoard";
 import { TaskForm } from "./components/TaskForm";
 import { CategoryManager } from "./components/CategoryManager";
 import { StatusManager } from "./components/StatusManager";
-import { useCategories, useStatuses, useTasks } from "./hooks/useLocalStorage";
+import { ThemeSettings } from "./components/ThemeSettings";
+import {
+  useCategories,
+  useStatuses,
+  useTasks,
+  useTheme,
+} from "./hooks/useLocalStorage";
 import type { Task } from "./types";
 
 function App() {
     const { categories, addCategory, updateCategory, deleteCategory } = useCategories();
     const { statuses, addStatus, updateStatus, deleteStatus, reorderStatuses } = useStatuses();
     const { tasks, addTask, updateTask, deleteTask } = useTasks();
+    const { theme, updateTheme, resetTheme } = useTheme();
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
     const [showTaskForm, setShowTaskForm] = useState(false);
     const [showCategoryManager, setShowCategoryManager] = useState(false);
     const [showStatusManager, setShowStatusManager] = useState(false);
+    const [showThemeSettings, setShowThemeSettings] = useState(false);
 
     // カテゴリーが変更されたら、選択中のカテゴリーが存在するか確認
     useEffect(() => {
@@ -100,6 +108,7 @@ function App() {
                 selectedCategoryId={selectedCategoryId}
                 onSelectCategory={setSelectedCategoryId}
                 onManageCategories={() => setShowCategoryManager(true)}
+                onOpenThemeSettings={() => setShowThemeSettings(true)}
             />
             <div className="main-content">
                 <div className="main-header">
@@ -149,6 +158,14 @@ function App() {
                     onDelete={handleDeleteStatus}
                     onReorder={reorderStatuses}
                     onClose={() => setShowStatusManager(false)}
+                />
+            )}
+            {showThemeSettings && (
+                <ThemeSettings
+                    theme={theme}
+                    onUpdate={updateTheme}
+                    onReset={resetTheme}
+                    onClose={() => setShowThemeSettings(false)}
                 />
             )}
         </div>

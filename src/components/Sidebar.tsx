@@ -6,6 +6,7 @@ interface SidebarProps {
   selectedCategoryId: string | null;
   onSelectCategory: (categoryId: string) => void;
   onManageCategories?: () => void;
+  onOpenThemeSettings?: () => void;
 }
 
 export const Sidebar = ({
@@ -13,6 +14,7 @@ export const Sidebar = ({
   selectedCategoryId,
   onSelectCategory,
   onManageCategories,
+  onOpenThemeSettings,
 }: SidebarProps) => {
   return (
     <div className="sidebar">
@@ -32,13 +34,21 @@ export const Sidebar = ({
           </button>
         ))}
       </div>
-      {onManageCategories && (
-        <div className="sidebar-footer">
+      <div className="sidebar-footer">
+        {onManageCategories && (
           <button className="sidebar-manage-btn" onClick={onManageCategories}>
             カテゴリーを管理
           </button>
-        </div>
-      )}
+        )}
+        {onOpenThemeSettings && (
+          <button
+            className="sidebar-settings-btn"
+            onClick={onOpenThemeSettings}
+          >
+            背景テーマ設定
+          </button>
+        )}
+      </div>
     </div>
   );
 };
