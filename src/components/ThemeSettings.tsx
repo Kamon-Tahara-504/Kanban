@@ -43,6 +43,8 @@ export const ThemeSettings = ({
 
   const handleReset = () => {
     onReset();
+    // onReset()が呼ばれると、親のthemeがDEFAULT_GRADIENT_THEMEに更新される
+    // useEffectでthemeが変更されたときにlocalThemeも更新される
   };
 
   // プレビュー用のグラデーションCSS
@@ -71,6 +73,7 @@ export const ThemeSettings = ({
               <ColorWheel 
                 size={400}
                 angleSpread={angleSpread}
+                initialColor={localTheme.color2}
                 onColorsChange={handleColorsChange}
               />
             </div>

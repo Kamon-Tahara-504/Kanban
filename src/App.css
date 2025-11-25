@@ -350,7 +350,7 @@ ul {
   .app-container {
     flex-direction: column;
   }
-
+  
   .sidebar {
     width: 100%;
     min-height: auto;
@@ -363,7 +363,7 @@ ul {
     padding: 0 12px;
     gap: 8px;
   }
-
+  
   .sidebar-item {
     white-space: nowrap;
     min-width: fit-content;
@@ -374,7 +374,7 @@ ul {
     gap: 8px;
     padding: 12px;
   }
-
+  
   .add-task-btn,
   .manage-status-btn {
     width: 100%;
@@ -383,12 +383,12 @@ ul {
   .kanban-board {
     padding: 12px;
   }
-
+  
   .kanban-columns {
     flex-direction: column;
     gap: 12px;
   }
-
+  
   .status-column {
     min-width: 100%;
   }
