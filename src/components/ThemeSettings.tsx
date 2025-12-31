@@ -157,7 +157,7 @@ export const ThemeSettings = ({
               リセット
             </button>
             <button className="btn-close" onClick={onClose}>
-              閉じる
+              保存
             </button>
           </div>
         </div>
