@@ -13,7 +13,7 @@
 }
 
 .task-form-container {
-  background: rgba(26, 26, 46, 0.95);
+  background: rgba(30, 30, 30, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 16px;
   width: 100%;
@@ -159,7 +159,6 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.btn-cancel,
 .btn-submit {
   padding: 10px 24px;
   border-radius: 6px;
@@ -171,23 +170,33 @@
 }
 
 .btn-cancel {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.8);
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 82, 82, 0.2);
+  color: #ff5252;
+  border: 2px solid #ff5252;
 }
 
 .btn-cancel:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+  background: rgba(255, 82, 82, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #ffffff;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 2px solid #10b981;
 }
 
 .btn-submit:hover {
+  background: rgba(16, 185, 129, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 @media (max-width: 640px) {
